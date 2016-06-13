@@ -3,7 +3,7 @@
 
 ## Description
 
-Voting is a simple voting application built with AngularJS, Node.js and MongoDB. Creates your article and shares them in a beautiful minimalistic template.
+Voting is a simple voting application built with AngularJS, Node.js and MongoDB. Create Posts and add question and vote for one of them.
 
 ## Features
 
@@ -15,10 +15,10 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [x] Add registration for new user
 - [x] Handle Logout
 - [ ] Add users management
-- [ ] Vote Article
+- [X] Vote Article
 - [ ] Permission for Artikel
 - [ ] Statistic
-- [ ] 
+- [ ] Lock Article after first vote
 
 
 ## Dependencies
@@ -72,17 +72,17 @@ Run gulp to build the scripts of the AngularJS app with: `$ gulp`
 
 Go to the api folder and install the dependencies: `my@home:/voting/api$ npm install`
 
-Edit api/voting.js and replace the value of Access-Control-Allow-Origin to match your server configuration.
+Edit api/voting-api.js and replace the value of Access-Control-Allow-Origin to match your server configuration.
 
 Run the application: `my@home:/voting/api$ node voting.js`
 
 ## Run
 
-You can now open your browser: `http://localhost/voting/app`
+You can now open your browser: `http://localhost:<your-port>/voting/app`
 
-Create a first account on `http://localhost/voting/app/#/admin/register`
+Create a first account on `http://localhost:<your-port>/voting/app/#/admin/register`
 
-To access the Administration, go to `http://localhost/voting/app/#/admin/login`
+To access the Administration, go to `http://localhost:<your-port>/voting/app/#/admin/login`
 
 ## Stack
 
