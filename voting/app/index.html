@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Voting about personal projects written mostly in JavaScript with AngularJS and Node.js. MongoDB is a guest too.">
+<meta name="author" content="Issam Lamani">
+<meta name="fragment" content="!">
+
+<title>voting</title>
+<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="dist/css/style.css" rel="stylesheet">
+<link href="dist/css/font-awesome.min.css" rel="stylesheet">
+<link href="lib/wysiwyg/css/bootstrap3-wysiwyg5.css" rel="stylesheet">
+</head>
+
+<body ng-app="app">
+	<div class="container col-sm-12">
+
+		<header class="header">
+			<h1 class="header-title">
+				<a href="#"> <i class="fa fa-code"></i> Voting
+				</a>
+			</h1>
+		</header>
+		<ol class="breadcrumb">
+			<li><a href="#/">Votings</a></li>
+			<li><a href="#/admin">Administration</a></li>
+			<li><a href="#/admin/logout">Logout</a>
+		</ol>
+		<div ng-view></div>
+	</div>
+	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/angular/angular-route.min.js"></script>
+	<script src="lib/jquery/jquery-2.0.3.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="dist/js/voting.js"></script>
+	<script src="lib/wysiwyg/js/wysihtml5-0.3.0.min.js"></script>
+	<script src="lib/wysiwyg/js/bootstrap3-wysihtml5.js"></script>
+
+</body>
+</html>
