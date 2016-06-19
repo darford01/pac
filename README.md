@@ -1,5 +1,6 @@
 # Voting
 
+[![Node version](https://img.shields.io/node/v/[NPM-MODULE-NAME].svg?style=flat)](http://nodejs.org/download/)
 
 ## Description
 
@@ -67,7 +68,9 @@ The build result is already available, but if you want to build it yourself, ins
 
 install gulp and the gulp dependencies: `npm install`
 
-Edit app/js/app.js and replace the value of `options.api.base_url` to match your server configuration.
+You can run the app in other Web-Server like Apache http Server. Create on Apache a folder voting and cope all the files from voting/app into and run the server
+
+Edit app/js/app.js and replace the value of `options.api.base_url` to match your server configuration of the Web-Server if you will use one. If you will not use a Web-Server for app, please configure there the same host and port number as nodejs server. 
 
 Run gulp to build the scripts of the AngularJS app with: `$ gulp`
 
@@ -75,17 +78,19 @@ Run gulp to build the scripts of the AngularJS app with: `$ gulp`
 
 Go to the api folder and install the dependencies: `my@home:/voting/api$ npm install`
 
-Edit api/voting-api.js and replace the value of Access-Control-Allow-Origin to match your server configuration.
+Edit api/voting-api.js and replace the value of Access-Control-Allow-Origin to match your Node.js server configuration.
 
-Run the application: `my@home:/voting/api$ node voting.js`
+Run the application: `my@home:/voting/api$ node voting-api.js`
 
 ## Run
 
-You can now open your browser: `http://localhost:<your-port>/voting/app`
+You can now open your browser: 
+* On Apache -- `http://localhost:<your-port>/voting/app`
+* Without http-Server -- `http://localhost:<your-port>/'
 
-Create a first account on `http://localhost:<your-port>/voting/app/#/admin/register`
+Create a first account on `http://localhost:<your-port>/<voting/app>/#/admin/register`
 
-To access the Administration, go to `http://localhost:<your-port>/voting/app/#/admin/login`
+To access the Administration, go to `http://localhost:<your-port>/<voting/app>/#/admin/login`
 
 ## Stack
 
@@ -95,3 +100,10 @@ To access the Administration, go to `http://localhost:<your-port>/voting/app/#/a
 * Redis
 * Charts.js V1.1.1
 * Node.js
+
+## Author
+
+Issam Lamani
+
+## License
+free
