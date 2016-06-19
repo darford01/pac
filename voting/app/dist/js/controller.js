@@ -27,6 +27,11 @@ app.config(['$locationProvider', '$routeProvider',
             templateUrl: 'partials/post.statistik.html',
             controller: 'SatistikCtrl'
         }).
+        when('/statistik/all', {
+            templateUrl: 'partials/post.all.statistik.html',
+            controller: 'WSSatistikCtrl',
+            access: { requiredAuthentication: true }
+        }).
         when('/tag/:tagName', {
             templateUrl: 'partials/post.list.html',
             controller: 'PostListTagCtrl'
@@ -126,14 +131,14 @@ appControllers.controller('PostViewCtrl', ['$scope', '$routeParams', '$location'
 ]);
 
 appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location', '$sce', 'PostService', '$timeout',  
-                     function AdminPostListCtrl($scope, $routeParams, $location, $sce, PostService, $timeout) {
+    function SatistikCtrl($scope, $routeParams, $location, $sce, PostService, $timeout) {
 
 	var id = $routeParams.id;
-	$scope.posts = [];
     $scope.votes = [];
     $scope.labels = [];
     $scope.data = [];
-    $scope.post = {}; 
+    $scope.post = {};
+    $scope.yourVote = '';
 	
     PostService.read(id).success(function(data) {
 		data.content = $sce.trustAsHtml(data.content);
@@ -150,14 +155,17 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
 	    }else{
 	    	var result = 0;
 	    	var tunables = $scope.post.tunables.toString();
-	    	var voteValues = []; 
-	    	voteValues = tunables.split(',');
+	    	var voteValues = tunables.split(',');
 	    	for(var k = 0; k < voteValues.length; k++){
 	    		var question = voteValues[k];
 	    		for(var i = 0; i < Object.keys($scope.votes).length; i++){
 	    			if($scope.votes[i].votevalue == question){
 	    				result++;
-	    			}  
+	    			}
+	    			/*
+	    			if($scope.votes[i].userid == userId){
+	    				$scope.yourVote = $scope.votes[i].votevalue;
+	    			}*/
 	    		}
 	    		$scope.labels.push(question);
 	    		$scope.data.push(result);
@@ -177,11 +185,26 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
 	}
 ]);
 
-appControllers.controller('AdminPostListCtrl', ['$scope', '$routeParams', '$location', '$sce', 'PostService', '$timeout',  
-    function AdminPostListCtrl($scope, $routeParams, $location, $sce, PostService, $timeout) {
+appControllers.controller('WSSatistikCtrl', ['$scope', '$routeParams', '$sce', 'PostService', '$timeout',  
+    function WSSatistikCtrl($scope, $routeParams, $sce, PostService, $timeout) {
+		$scope.labels = [];
+		$scope.data = [];
+	    
+	    PostService.wsStatistik().success(function(rData) {
+	    	var wscalls = rData;
+	    	for(var k = 0; k < wscalls.length; k++){
+	    		$scope.labels.push(wscalls[k].wsName);
+	    		$scope.data.push(wscalls[k].wsRecords);
+	    	}
+	    	
+		});
+	}
+]);
+
+
+appControllers.controller('AdminPostListCtrl', ['$scope', '$routeParams', '$sce', 'PostService',  
+    function AdminPostListCtrl($scope, $routeParams, $sce, PostService) {
 		 
-        
-        
         PostService.findAll().success(function(data) {
             $scope.posts = data;
         });
@@ -528,6 +551,10 @@ appServices.factory('PostService', function($http) {
         
         getVoteStatistik: function(id) {
             return $http.get(options.api.base_url  + '/post/statistik/'+ id); 
+        },
+        
+        wsStatistik: function() {
+            return $http.get(options.api.base_url  + '/wsstatistik/all'); 
         }
     };
 });

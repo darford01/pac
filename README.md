@@ -1,7 +1,5 @@
 # Voting
 
-[![Node version](https://nodejs.org/en/blog/release/v5.7.0/)](http://nodejs.org/download/)
-
 ## Description
 
 Voting is a simple voting application built with AngularJS, Node.js and MongoDB. Create Posts and add question and vote for one of them.
@@ -19,7 +17,7 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [X] Vote Article
 - [ ] Permission for Article
 - [X] Statistic for a Post
-- [ ] Statistic for websServices calls 
+- [x] Statistic for websServices calls 
 - [ ] Lock Article after first vote
 - [ ] Tests
 - [ ] Dokus

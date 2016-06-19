@@ -32,25 +32,25 @@ app.get('/post', routes.posts.list);
 //Get all posts
 app.get('/post/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.listAll);
 
-//Get the post id
+// Get the post id
 app.get('/post/:id', routes.posts.read); 
 
-//Get posts by tag
+// Get posts by tag
 app.get('/tag/:tagName', routes.posts.listByTag); 
 
-//Create a new user
+// Create a new user
 app.post('/user/register', routes.users.register); 
 
-//Login
+// Login
 app.post('/user/signin', routes.users.signin); 
 
-//Logout
+// Logout
 app.get('/user/logout', jwt({secret: secret.secretToken}), routes.users.logout); 
 
-//Create a new post
+// Create a new post
 app.post('/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken , routes.posts.create); 
 
-//Edit the post id
+// Edit the post id
 app.put('/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.update); 
 
 // add vote
@@ -59,7 +59,11 @@ app.post('/post/addvote', jwt({secret: secret.secretToken}), tokenManager.verify
 // get post statistik
 app.get('/post/statistik/:id',   jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
 
-//Delete the post id
+// Delete the post id
 app.delete('/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.delete); 
+
+// Get all posts
+app.get('/wsstatistik/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.wsListAll);
+
 
 console.log('Voting API is starting on port 9877');

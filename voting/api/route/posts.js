@@ -4,12 +4,14 @@ var publicFields = '_id title url tags content created tunables';
 
 var publicFieldsVote = 'postid votevalue'; 
 
-var userInfo = require('../config/mongo_database');
+var userPublicFieldsVote = '_id username password is_admin created roles';
 
 var userInfo = require('./userinfo');
 
+var wsStatistik = require('./wsCalls');
+
 exports.list = function(req, res) {
-	console.log('--> exports.list');
+	wsStatistik.wsCalls('list');
 	var query = db.postModel.find({is_published: true});
 
 	query.select(publicFields);
@@ -29,7 +31,7 @@ exports.list = function(req, res) {
 };
 
 exports.listAll = function(req, res) {
-	console.log('--> exports.listAll');
+	wsStatistik.wsCalls('listAll');
 	if (!req.user) {
 		return res.send(401);
 	}
@@ -51,7 +53,7 @@ exports.listAll = function(req, res) {
 };
 
 exports.read = function(req, res) {
-	console.log('--> exports.read');
+	wsStatistik.wsCalls('read');
 	var id = req.params.id || '';
 	if (id == '') {
 		return res.send(400);
@@ -76,7 +78,7 @@ exports.read = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	console.log('--> exports.update');
+	wsStatistik.wsCalls('list');
 	if (!req.user) {
 		return res.send(401);
 	}
@@ -122,7 +124,7 @@ exports.update = function(req, res) {
 };
 
 exports.listByTag = function(req, res) {
-	console.log('--> exports.listByTag');
+	wsStatistik.wsCalls('listByTAg');
 	var tagName = req.params.tagName || '';
 	if (tagName == '') {
 		return res.send(400);
@@ -146,7 +148,7 @@ exports.listByTag = function(req, res) {
 }
 
 exports.delete = function(req, res) {
-	console.log('--> exports.delete');
+	wsStatistik.wsCalls('delete');
 	if (!req.user) {
 		return res.send(401);
 	}
@@ -176,7 +178,7 @@ exports.delete = function(req, res) {
 
 
 exports.create = function(req, res) {
-	console.log('--> exports.create');
+	wsStatistik.wsCalls('create');
 	if (!req.user) {
 		return res.send(401);
 	}
@@ -205,7 +207,7 @@ exports.create = function(req, res) {
 }
 
 exports.addVote = function(req, res) {
-	console.log('--> exports.addvote');
+	wsStatistik.wsCalls('addVote');
 	if (!req.user) {
 		console.log('--> 001');
 		return res.send(401);
@@ -249,7 +251,7 @@ exports.addVote = function(req, res) {
 
 /* get vote results */
 exports.getPostStatistik = function(req, res) {
-	console.log('--> exports.getPostStatistik');
+	wsStatistik.wsCalls('getPostStatistik');
 	var id = req.params.id || '';
 	var userId = userInfo.getUserId(req.headers);
 	if (id == '' || userId == null) {
@@ -289,3 +291,18 @@ exports.getPostStatistik = function(req, res) {
 		}
 	});	
 }
+
+// lsit all WS Calls
+exports.wsListAll = function(req, res) {
+	wsStatistik.wsCalls('wsListAll');
+	
+	var query = db.wsCallsModel.find();
+	query.sort('-wsName');
+	query.exec(function(err, results) {
+		if (err) {
+			console.log(err);
+			return res.send(400);
+		}
+			return res.json(200, results);
+	});
+};

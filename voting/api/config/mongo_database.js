@@ -20,9 +20,12 @@ var User = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     is_admin: { type: Boolean, default: false },
-    created: { type: Date, default: Date.now }
+    created: { type: Date, default: Date.now },
+    roles: {type: Array, arrayType: {type: String, minLength: 0, default: []}}
+    
 });
 
+// post
 var Post = new Schema({
     title: { type: String, required: true },
     tags: [ {type: String} ],
@@ -37,11 +40,18 @@ var Post = new Schema({
     likes: { type: Number, default: 0 }
 });
 
+// vote statistik
 var Vote = new Schema({
 	userid: {type: String, required: true},
 	postid: {type: String, required: true},
 	votevalue: { type: String, required: true},
 	created: { type: Date, default: Date.now }
+});
+
+// Web-Services calls statistik
+var WSCalls = new Schema({
+	wsName: {type: String, required: true},
+	wsRecords: {type: Number, default: 0}
 });
 
 // Bcrypt middleware on UserSchema
@@ -74,9 +84,11 @@ User.methods.comparePassword = function(password, cb) {
 var userModel = mongoose.model('User', User);
 var postModel = mongoose.model('Post', Post);
 var voteModel = mongoose.model('Vote', Vote);
+var wsCallsModel = mongoose.model('WSCalls', WSCalls);
 
 
 // Export Models
 exports.userModel = userModel;
 exports.postModel = postModel;
-exports.voteModel = voteModel; 
+exports.voteModel = voteModel;
+exports.wsCallsModel = wsCallsModel;
