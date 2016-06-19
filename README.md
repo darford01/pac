@@ -1,6 +1,6 @@
 # Voting
 
-[![Node version](https://img.shields.io/node/v/[NPM-MODULE-NAME].svg?style=flat)](http://nodejs.org/download/)
+[![Node version](https://nodejs.org/en/blog/release/v5.7.0/)](http://nodejs.org/download/)
 
 ## Description
 
@@ -99,7 +99,7 @@ To access the Administration, go to `http://localhost:<your-port>/<voting/app>/#
 * MongoDB
 * Redis
 * Charts.js V1.1.1
-* Node.js
+* Node.js v5.7.0
 
 ## Author
 
