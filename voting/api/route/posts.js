@@ -2,6 +2,8 @@ var db = require('../config/mongo_database.js');
 
 var publicFields = '_id title url tags content created tunables';
 
+var publicFieldsVote = 'postid votevalue'; 
+
 var userInfo = require('../config/mongo_database');
 
 var userInfo = require('./userinfo');
@@ -205,14 +207,15 @@ exports.create = function(req, res) {
 exports.addVote = function(req, res) {
 	console.log('--> exports.addvote');
 	if (!req.user) {
+		console.log('--> 001');
 		return res.send(401);
 	}
-
+	
 	var vote = req.body.vote;
-
 	var userId = userInfo.getUserId(req.headers);
-
+	console.log('--> vote: '+vote+' id: '+vote._id+' value: '+vote.votevalue+' userid: '+userId);
 	if (vote == null || vote._id == null || vote.votevalue == null || userId == null) {
+		console.log('--> 002');
 		return res.send(400);
 	}	
 	// Add Vote
@@ -239,15 +242,50 @@ exports.addVote = function(req, res) {
 
 				return res.send(200);
 			});
-		}else{
-			// resultat für das Voting
 		}
 	});
 	//TODO sperre die Bearbeitung des Entrys, somit kann der Redakteur dieses Antry nicht mehr beabeiten	
 }
 
+/* get vote results */
+exports.getPostStatistik = function(req, res) {
+	console.log('--> exports.getPostStatistik');
+	var id = req.params.id || '';
+	var userId = userInfo.getUserId(req.headers);
+	if (id == '' || userId == null) {
+		return res.send(400);
+	}
+	//console.log('--> 1: id= '+id+' userid: '+userId);
+	var query = db.voteModel.findOne({userid:userId, postid: id});
+	query.exec(function(err, result) {
+		if (err) {
+			console.log(err);
+			return res.send(400);
+		}
 
-//TODO Statistik fuer ein Post
-exports.postStatistik = function(req, res) {
-	console.log('--> exports.addvote');
+		if (result == null) {
+			return res.json(200, result);
+		}else{
+			// resultat für das Voting
+			var voteQuery = db.voteModel.find({postid: id});
+			voteQuery.select(publicFieldsVote);
+			voteQuery.exec(function(err, results) {
+				if (err) {
+		  			console.log(err);
+		  			return res.send(400);
+		  		}
+
+		  		if (results != null) {
+
+		  	  		/*for (var vote in results) {
+		  	  			console.log('--> ID: ' + results[vote].postid+ ' Result: ' + results[vote].votevalue);
+		  	    	}*/
+					return res.json(200, results);
+				
+		  		} else {
+		  			return res.send(400);
+		  		}
+			});
+		}
+	});	
 }

@@ -3,7 +3,7 @@
 var app = angular.module('app', ['ngRoute', 'appControllers', 'appServices', 'appDirectives']);
 
 var appServices = angular.module('appServices', []);
-var appControllers = angular.module('appControllers', []);
+var appControllers = angular.module('appControllers', ['chart.js']);
 var appDirectives = angular.module('appDirectives', []);
 
 var options = {};
@@ -22,6 +22,10 @@ app.config(['$locationProvider', '$routeProvider',
         when('/post/:id', {
             templateUrl: 'partials/post.view.html',
             controller: 'PostViewCtrl'
+        }).
+        when('/post/statistik/:id', {
+            templateUrl: 'partials/post.statistik.html',
+            controller: 'SatistikCtrl'
         }).
         when('/tag/:tagName', {
             templateUrl: 'partials/post.list.html',
@@ -75,6 +79,7 @@ app.run(function($rootScope, $location, $window, AuthenticationService) {
         }
     });
 });
+
 appControllers.controller('PostListCtrl', ['$scope', '$sce', 'PostService',
     function PostListCtrl($scope, $sce, PostService) {
         $scope.posts = [];
@@ -98,37 +103,90 @@ appControllers.controller('PostViewCtrl', ['$scope', '$routeParams', '$location'
         $scope.post = {};
         var id = $routeParams.id;
         $scope.voteValue = '';
-
+        
         PostService.read(id).success(function(data) {
-            data.content = $sce.trustAsHtml(data.content);
-            $scope.post = data;
-        }).error(function(data, status) {
-            console.log(status);
-            console.log(data);
-        });
+    		data.content = $sce.trustAsHtml(data.content);
+    		$scope.post = data;
+    	}).error(function(data, status) {
+    		console.log(status);
+    		console.log(data);
+    	});
         
         // vote the post
         $scope.voteThePost = function voteThePost(){
         	//alert('------------> Just a test '+$scope.voteValue);
         	PostService.addvote(id,$scope.voteValue).success(function(data) {
-			//$location.path("/admin");
-             }).error(function(status, data) {
-                        console.log(status);
-                        console.log(data);
-              });;
+        		$location.path("/post/statistik/"+id);
+            }).error(function(status, data) {
+                console.log(status);
+                console.log(data);
+            });;
         }
     }
 ]);
 
+appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location', '$sce', 'PostService', '$timeout',  
+                     function AdminPostListCtrl($scope, $routeParams, $location, $sce, PostService, $timeout) {
 
-appControllers.controller('AdminPostListCtrl', ['$scope', 'PostService', 
-    function AdminPostListCtrl($scope, PostService) {
-        $scope.posts = [];
+	var id = $routeParams.id;
+	$scope.posts = [];
+    $scope.votes = [];
+    $scope.labels = [];
+    $scope.data = [];
+    $scope.post = {}; 
+	
+    PostService.read(id).success(function(data) {
+		data.content = $sce.trustAsHtml(data.content);
+		$scope.post = data;
+	}).error(function(data, status) {
+		console.log(status);
+		console.log(data);
+	})
+    
+	PostService.getVoteStatistik(id).success(function(data) {
+		$scope.votes = data;
+	    if($scope.votes[0].postid === undefined){
+	    	$location.path("/post/"+id);
+	    }else{
+	    	var result = 0;
+	    	var tunables = $scope.post.tunables.toString();
+	    	var voteValues = []; 
+	    	voteValues = tunables.split(',');
+	    	for(var k = 0; k < voteValues.length; k++){
+	    		var question = voteValues[k];
+	    		for(var i = 0; i < Object.keys($scope.votes).length; i++){
+	    			if($scope.votes[i].votevalue == question){
+	    				result++;
+	    			}  
+	    		}
+	    		$scope.labels.push(question);
+	    		$scope.data.push(result);
+	    		
+	    		//alert('--> Test: '+question+' Result '+result);
+	        	result = 0;
+	    	}
+	    	//alert('Data: '+$scope.data);
+	    	//alert('labels: '+$scope.labels);
+	    	
+	    	$location.path("/post/statistik/"+id);
+	    }
+	}).error(function(data, status) {
+	    console.log(status);
+	    console.log(data);
+	});
+	}
+]);
 
+appControllers.controller('AdminPostListCtrl', ['$scope', '$routeParams', '$location', '$sce', 'PostService', '$timeout',  
+    function AdminPostListCtrl($scope, $routeParams, $location, $sce, PostService, $timeout) {
+		 
+        
+        
         PostService.findAll().success(function(data) {
             $scope.posts = data;
         });
-
+        
+        //TODO nicht mehr bearbeiten nach dem publich
         $scope.updatePublishState = function updatePublishState(post, shouldPublish) {
             if (post != undefined && shouldPublish != undefined) {
 
@@ -463,18 +521,14 @@ appServices.factory('PostService', function($http) {
         update: function(post) {
             return $http.put(options.api.base_url + '/post', {'post': post});
         },
-
-        like: function(id) {
-            return $http.post(options.api.base_url  + '/post/like', {'id': id});
-        },
-
-        unlike: function(id) {
-            return $http.post(options.api.base_url  + '/post/unlike', {'id': id}); 
+        
+        addvote: function(id, voteValue) {
+            return $http.post(options.api.base_url  + '/post/addvote', {'vote': {_id: id, votevalue: voteValue}}); 
         },
         
-        addvote: function(id) {
-            return $http.post(options.api.base_url  + '/post/addvote', {'id': id}); 
-        } 
+        getVoteStatistik: function(id) {
+            return $http.get(options.api.base_url  + '/post/statistik/'+ id); 
+        }
     };
 });
 

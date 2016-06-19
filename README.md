@@ -16,9 +16,12 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [x] Handle Logout
 - [ ] Add users management
 - [X] Vote Article
-- [ ] Permission for Artikel
-- [ ] Statistic
+- [ ] Permission for Article
+- [X] Statistic for a Post
+- [ ] Statistic for websServices calls 
 - [ ] Lock Article after first vote
+- [ ] Tests
+- [ ] Dokus
 
 
 ## Dependencies
@@ -86,8 +89,9 @@ To access the Administration, go to `http://localhost:<your-port>/voting/app/#/a
 
 ## Stack
 
-* AngularJS
-* Bootstrap
+* AngularJS V1.2.1
+* Bootstrap v3.0.2
 * MongoDB
 * Redis
+* Charts.js V1.1.1
 * Node.js

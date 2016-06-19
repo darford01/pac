@@ -57,7 +57,7 @@ app.put('/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken, ro
 app.post('/post/addvote', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.addVote);
 
 // get post statistik
-app.get('/post/statistik/:id',   jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.postStatistik);
+app.get('/post/statistik/:id',   jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
 
 //Delete the post id
 app.delete('/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.delete); 
