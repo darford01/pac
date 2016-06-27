@@ -19,7 +19,7 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [X] Statistic for a Post
 - [x] Statistic for websServices calls 
 - [ ] Lock Article after first vote
-- [ ] Units Tests
+- [x] Units Tests
 - [ ] Dokus
 
 
@@ -110,11 +110,11 @@ $ mocha
 * Redis
 * Charts.js V1.1.1
 * Node.js v5.7.0
-* Mocha
-
+* Mocha v2.5.3
+ 
 ## Author
 
-Issam Lamani
+Issam Lamani (PRODYNA AG)
 
 ## License
 free
