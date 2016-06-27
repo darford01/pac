@@ -8,5 +8,10 @@
     "gulp": "~3.6.2",
     "less": "~1.7.0",
     "gulp-less": "~1.2.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3",
+    "should": "^9.0.2",
+    "supertest": "^1.2.0"
   }
 }

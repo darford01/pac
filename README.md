@@ -19,7 +19,7 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [X] Statistic for a Post
 - [x] Statistic for websServices calls 
 - [ ] Lock Article after first vote
-- [ ] Tests
+- [ ] Units Tests
 - [ ] Dokus
 
 
@@ -90,6 +90,18 @@ Create a first account on `http://localhost:<your-port>/<voting/app>/#/admin/reg
 
 To access the Administration, go to `http://localhost:<your-port>/<voting/app>/#/admin/login`
 
+## Testing 
+
+For testing the application we will use Mocha. Please install mocha:
+
+$ sudo npm install -g mocha
+
+and then in another shell run:
+
+$ cd /voting
+$ mocha 
+
+
 ## Stack
 
 * AngularJS V1.2.1
@@ -98,6 +110,7 @@ To access the Administration, go to `http://localhost:<your-port>/<voting/app>/#
 * Redis
 * Charts.js V1.1.1
 * Node.js v5.7.0
+* Mocha
 
 ## Author
 

@@ -5,8 +5,10 @@ var bodyParser = require('body-parser'); //bodyparser + json + urlencoder
 var morgan  = require('morgan'); // logger
 var tokenManager = require('./config/token_manager');
 var secret = require('./config/secret');
+var port = 9877;
+var host = 'http://localhost';
 
-app.listen(9877);
+app.listen(port);
 app.use(bodyParser());
 app.use(express.static('../app'));
 app.use(morgan());
@@ -18,52 +20,52 @@ routes.users = require('./route/users.js');
 
 
 app.all('*', function(req, res, next) {
-  res.set('Access-Control-Allow-Origin', 'http://localhost');
+  res.set('Access-Control-Allow-Origin', host);
   res.set('Access-Control-Allow-Credentials', true);
   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
-  res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization, json');
   if ('OPTIONS' == req.method) return res.send(200);
   next();
 });
 
 //Get all published post
-app.get('/post', routes.posts.list);
+app.get('/api/post', routes.posts.list);
 
 //Get all posts
-app.get('/post/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.listAll);
+app.get('/api/post/all', routes.posts.listAll);
 
 // Get the post id
-app.get('/post/:id', routes.posts.read); 
+app.get('/api/post/:id', routes.posts.read); 
 
 // Get posts by tag
-app.get('/tag/:tagName', routes.posts.listByTag); 
+app.get('/api/tag/:tagName', routes.posts.listByTag); 
 
 // Create a new user
-app.post('/user/register', routes.users.register); 
+app.post('/api/user/register', routes.users.register); 
 
 // Login
-app.post('/user/signin', routes.users.signin); 
+app.post('/api/user/signin', routes.users.signin); 
 
 // Logout
-app.get('/user/logout', jwt({secret: secret.secretToken}), routes.users.logout); 
+app.get('/api/user/logout', jwt({secret: secret.secretToken}), routes.users.logout); 
 
 // Create a new post
-app.post('/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken , routes.posts.create); 
+app.post('/api/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken , routes.posts.create); 
 
 // Edit the post id
-app.put('/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.update); 
+app.put('/api/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.update); 
 
 // add vote
-app.post('/post/addvote', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.addVote);
+app.post('/api/post/addvote', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.addVote);
 
 // get post statistik
-app.get('/post/statistik/:id',   jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
+app.get('/api/post/statistik/:id',   jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
 
 // Delete the post id
-app.delete('/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.delete); 
+app.delete('/api/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.delete); 
 
 // Get all posts
-app.get('/wsstatistik/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.wsListAll);
+app.get('/api/wsstatistik/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.wsListAll);
 
 
-console.log('Voting API is starting on port 9877');
+console.log('Voting API is starting on port '+port);

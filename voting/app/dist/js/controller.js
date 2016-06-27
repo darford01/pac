@@ -514,47 +514,47 @@ appServices.factory('TokenInterceptor', function ($q, $window, $location, Authen
 appServices.factory('PostService', function($http) {
     return {
         findAllPublished: function() {
-            return $http.get(options.api.base_url + '/post');
+            return $http.get(options.api.base_url + '/api/post');
         },
 
         findByTag: function(tag) {
-            return $http.get(options.api.base_url + '/tag/' + tag);
+            return $http.get(options.api.base_url + '/api/tag/' + tag);
         },
 
         read: function(id) {
-            return $http.get(options.api.base_url + '/post/' + id);
+            return $http.get(options.api.base_url + '/api/post/' + id);
         },
         
         findAll: function() {
-            return $http.get(options.api.base_url + '/post/all');
+            return $http.get(options.api.base_url + '/api/post/all');
         },
 
         changePublishState: function(id, newPublishState) {
-            return $http.put(options.api.base_url + '/post', {'post': {_id: id, is_published: newPublishState}});
+            return $http.put(options.api.base_url + '/api/post', {'post': {_id: id, is_published: newPublishState}});
         },
 
         delete: function(id) {
-            return $http.delete(options.api.base_url + '/post/' + id);
+            return $http.delete(options.api.base_url + '/api/post/' + id);
         },
 
         create: function(post) {
-            return $http.post(options.api.base_url + '/post', {'post': post});
+            return $http.post(options.api.base_url + '/api/post', {'post': post});
         },
 
         update: function(post) {
-            return $http.put(options.api.base_url + '/post', {'post': post});
+            return $http.put(options.api.base_url + '/api/post', {'post': post});
         },
         
         addvote: function(id, voteValue) {
-            return $http.post(options.api.base_url  + '/post/addvote', {'vote': {_id: id, votevalue: voteValue}}); 
+            return $http.post(options.api.base_url  + '/api/post/addvote', {'vote': {_id: id, votevalue: voteValue}}); 
         },
         
         getVoteStatistik: function(id) {
-            return $http.get(options.api.base_url  + '/post/statistik/'+ id); 
+            return $http.get(options.api.base_url  + '/api/post/statistik/'+ id); 
         },
         
         wsStatistik: function() {
-            return $http.get(options.api.base_url  + '/wsstatistik/all'); 
+            return $http.get(options.api.base_url  + '/api/wsstatistik/all'); 
         }
     };
 });
@@ -562,15 +562,15 @@ appServices.factory('PostService', function($http) {
 appServices.factory('UserService', function ($http) {
     return {
         signIn: function(username, password) {
-            return $http.post(options.api.base_url + '/user/signin', {username: username, password: password});
+            return $http.post(options.api.base_url + '/api/user/signin', {username: username, password: password});
         },
 
         logOut: function() {
-            return $http.get(options.api.base_url + '/user/logout');
+            return $http.get(options.api.base_url + '/api/user/logout');
         },
 
         register: function(username, password, passwordConfirmation) {
-            return $http.post(options.api.base_url + '/user/register', {username: username, password: password, passwordConfirmation: passwordConfirmation });
+            return $http.post(options.api.base_url + '/api/user/register', {username: username, password: password, passwordConfirmation: passwordConfirmation });
         }
     }
 });

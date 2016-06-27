@@ -32,9 +32,9 @@ exports.list = function(req, res) {
 
 exports.listAll = function(req, res) {
 	wsStatistik.wsCalls('listAll');
-	if (!req.user) {
+	/*if (!req.user) {
 		return res.send(401);
-	}
+	}*/
 
 	var query = db.postModel.find();
 	query.sort('-created');
