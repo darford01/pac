@@ -294,15 +294,20 @@ exports.getPostStatistik = function(req, res) {
 
 // lsit all WS Calls
 exports.wsListAll = function(req, res) {
+	console.log('---------------------> 01');
 	wsStatistik.wsCalls('wsListAll');
-	
+	console.log('---------------------> 02');
 	var query = db.wsCallsModel.find();
+	console.log('---------------------> 03');
 	query.sort('-wsName');
+	console.log('---------------------> 04');
 	query.exec(function(err, results) {
+		console.log('---------------------> 05');
 		if (err) {
 			console.log(err);
 			return res.send(400);
 		}
-			return res.json(200, results);
+		console.log('---------------------> 06');
+		return res.json(200, results);
 	});
 };

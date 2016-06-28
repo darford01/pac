@@ -162,19 +162,13 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
 	    			if($scope.votes[i].votevalue == question){
 	    				result++;
 	    			}
-	    			/*
-	    			if($scope.votes[i].userid == userId){
-	    				$scope.yourVote = $scope.votes[i].votevalue;
-	    			}*/
 	    		}
 	    		$scope.labels.push(question);
 	    		$scope.data.push(result);
 	    		
-	    		//alert('--> Test: '+question+' Result '+result);
 	        	result = 0;
 	    	}
-	    	//alert('Data: '+$scope.data);
-	    	//alert('labels: '+$scope.labels);
+	    	
 	    	
 	    	$location.path("/post/statistik/"+id);
 	    }

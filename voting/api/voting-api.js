@@ -5,10 +5,10 @@ var bodyParser = require('body-parser'); //bodyparser + json + urlencoder
 var morgan  = require('morgan'); // logger
 var tokenManager = require('./config/token_manager');
 var secret = require('./config/secret');
-var port = 9877;
-var host = 'http://localhost';
+var config = require('./config/config');
 
-app.listen(port);
+
+app.listen(config.port);
 app.use(bodyParser());
 app.use(express.static('../app'));
 app.use(morgan());
@@ -20,7 +20,7 @@ routes.users = require('./route/users.js');
 
 
 app.all('*', function(req, res, next) {
-  res.set('Access-Control-Allow-Origin', host);
+  res.set('Access-Control-Allow-Origin', config.url);
   res.set('Access-Control-Allow-Credentials', true);
   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
   res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization, json');
@@ -59,7 +59,7 @@ app.put('/api/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken
 app.post('/api/post/addvote', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.addVote);
 
 // get post statistik
-app.get('/api/post/statistik/:id',   jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
+app.get('/api/post/statistik/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
 
 // Delete the post id
 app.delete('/api/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.delete); 
@@ -68,4 +68,4 @@ app.delete('/api/post/:id', jwt({secret: secret.secretToken}), tokenManager.veri
 app.get('/api/wsstatistik/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.wsListAll);
 
 
-console.log('Voting API is starting on port '+port);
+console.log('Voting API is starting on port '+config.port);
