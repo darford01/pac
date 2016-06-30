@@ -25,6 +25,4 @@ exports.userIsAdmin = function(userID, callback) {
 			callback(result.is_admin);
 		}
 	});
-	
-	//callback(random_data);
 }

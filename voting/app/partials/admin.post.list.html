@@ -29,8 +29,8 @@
                     <button ng-show="post.is_published" class="btn btn-warning btn-xs" ng-click="updatePublishState(post, false)"><span class="glyphicon glyphicon-eye-close"></span></button>
                     <button ng-show="!post.is_published" class="btn btn-success btn-xs" ng-click="updatePublishState(post, true)"><span class="glyphicon glyphicon-eye-open"></span></button>
                     
-                    <a href="#/admin/post/edit/{{post._id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
-                    <button class="btn btn-danger btn-xs" ng-click="deletePost(post._id)"><span class="glyphicon glyphicon-trash"></span></button>
+                    <a ng-show="!post.is_published" href="#/admin/post/edit/{{post._id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                    <button  class="btn btn-danger btn-xs" ng-click="deletePost(post._id)"><span class="glyphicon glyphicon-trash"></span></button>
                 </td>
             </tr>
         </tbody>

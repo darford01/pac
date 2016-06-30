@@ -32,24 +32,30 @@ exports.list = function(req, res) {
 
 exports.listAll = function(req, res) {
 	wsStatistik.wsCalls('listAll');
-	/*if (!req.user) {
-		return res.send(401);
-	}*/
+	
+	var userId = userInfo.getUserId(req.headers);
+	var isAdmin = null;
+	var isAdminCallback = function(data) {
+		isAdmin = data;
+		var query = db.postModel.find({ownerid:userId});
+		if(isAdmin){
+			query = db.postModel.find();
+		}
+		query.sort('-created');
+		query.exec(function(err, results) {
+			if (err) {
+	  			console.log(err);
+	  			return res.send(400);
+	  		}
 
-	var query = db.postModel.find();
-	query.sort('-created');
-	query.exec(function(err, results) {
-		if (err) {
-  			console.log(err);
-  			return res.send(400);
-  		}
+	  		for (var postKey in results) {
+	    		results[postKey].content = results[postKey].content.substr(0, 400);
+	    	}
 
-  		for (var postKey in results) {
-    		results[postKey].content = results[postKey].content.substr(0, 400);
-    	}
-
-  		return res.json(200, results);
-	});
+	  		return res.json(200, results);
+		});
+	};
+	userInfo.userIsAdmin(userId, isAdminCallback);
 };
 
 exports.read = function(req, res) {
@@ -78,49 +84,62 @@ exports.read = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	wsStatistik.wsCalls('list');
+	wsStatistik.wsCalls('update');
 	if (!req.user) {
 		return res.send(401);
 	}
-
+	
 	var post = req.body.post;
 
 	if (post == null || post._id == null) {
 		res.send(400);
 	}
-
+	
 	var updatePost = {};
-
+	
 	if (post.title != null && post.title != "") {
 		updatePost.title = post.title;
 	} 
-
-	if(post.tunables != null){
-		updatePost.tunables = post.tunables;
-	}
-	
-	if (post.tags != null) {
-		if (Object.prototype.toString.call(post.tags) === '[object Array]') {
-			updatePost.tags = post.tags;
+	var userId = userInfo.getUserId(req.headers);
+	var isAdmin = null;
+	var isAdminCallback = function(data) {
+		isAdmin = data;
+		
+		if(post.tunables != null){
+			updatePost.tunables = post.tunables;
 		}
-		else {
-			updatePost.tags = post.tags.split(',');
+		
+		if (post.tags != null) {
+			if (Object.prototype.toString.call(post.tags) === '[object Array]') {
+				updatePost.tags = post.tags;
+			}
+			else {
+				updatePost.tags = post.tags.split(',');
+			}
 		}
-	}
 
-	if (post.is_published != null) {
-		updatePost.is_published = post.is_published;
-	}
+		if (post.is_published != null) {
+			if(post.is_published){
+				updatePost.is_published = post.is_published;
+			}
+		}
 
-	if (post.content != null && post.content != "") {
-		updatePost.content = post.content;
-	}
+		if (post.content != null && post.content != "") {
+			updatePost.content = post.content;
+		}
 
-	updatePost.updated = new Date();
-
-	db.postModel.update({_id: post._id}, updatePost, function(err, nbRows, raw) {
-		return res.send(200);
-	});
+		updatePost.updated = new Date();
+		if(isAdmin){
+			db.postModel.update({_id: post._id }, updatePost, function(err, nbRows, raw) {
+				return res.send(200);
+			});
+		}else{
+			db.postModel.update({_id: post._id,	ownerid: userId}, updatePost, function(err, nbRows, raw) {
+				return res.send(200);
+			});
+		}
+	};
+	userInfo.userIsAdmin(userId, isAdminCallback);
 };
 
 exports.listByTag = function(req, res) {
@@ -157,23 +176,32 @@ exports.deletePost = function(req, res) {
 	if (id == null || id == '') {
 		res.send(400);
 	} 
-
-	var query = db.postModel.findOne({_id:id});
-
-	query.exec(function(err, result) {
-		if (err) {
-			console.log(err);
-			return res.send(400);
+	var userId = userInfo.getUserId(req.headers);
+	var isAdmin = null;
+	var isAdminCallback = function(data) {
+		isAdmin = data;
+		var query = null; 		
+		if(isAdmin){
+			query = db.postModel.findOne({_id:id});
+		}else{
+			query = db.postModel.findOne({_id:id, ownerid: userId});
 		}
+		query.exec(function(err, result) {
+			if (err) {
+				console.log(err);
+				return res.send(400);
+			}
 
-		if (result != null) {
-			result.remove();
-			return res.send(200);
-		}
-		else {
-			return res.send(400);
-		}
-	});
+			if (result != null) {
+				result.remove();
+				return res.send(200);
+			}
+			else {
+				return res.send(400);
+			}
+		});
+	};
+	userInfo.userIsAdmin(userId, isAdminCallback);
 };
 
 
@@ -182,7 +210,7 @@ exports.create = function(req, res) {
 	if (!req.user) {
 		return res.send(401);
 	}
-
+	var userId = userInfo.getUserId(req.headers);
 	var post = req.body.post;
 	if (post == null || post.title == null || post.content == null 
 		|| post.tags == null) {
@@ -195,6 +223,7 @@ exports.create = function(req, res) {
 	postEntry.is_published = post.is_published;
 	postEntry.content = post.content;
 	postEntry.tunables = post.tunables;
+	postEntry.ownerid = userId;
 
 	postEntry.save(function(err) {
 		if (err) {
@@ -244,7 +273,6 @@ exports.addVote = function(req, res) {
 			});
 		}
 	});
-	//TODO sperre die Bearbeitung des Entrys, somit kann der Redakteur dieses Antry nicht mehr beabeiten	
 }
 
 /* get vote results */
@@ -276,10 +304,6 @@ exports.getPostStatistik = function(req, res) {
 		  		}
 
 		  		if (results != null) {
-
-		  	  		/*for (var vote in results) {
-		  	  			console.log('--> ID: ' + results[vote].postid+ ' Result: ' + results[vote].votevalue);
-		  	    	}*/
 					return res.json(200, results);
 				
 		  		} else {
@@ -290,7 +314,7 @@ exports.getPostStatistik = function(req, res) {
 	});	
 }
 
-// lsit all WS Calls
+// list all WS Calls
 exports.wsListAll = function(req, res) {
 	wsStatistik.wsCalls('wsListAll');
 	

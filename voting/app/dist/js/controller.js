@@ -16,7 +16,7 @@ app.config(['$locationProvider', '$routeProvider',
     $routeProvider.
         when('/', {
             templateUrl: 'partials/post.list.html',
-            controller: 'AdminPostListCtrl',
+            controller: 'PostListCtrl',
             access: { requiredAuthentication: true }
         }).
         when('/post/:id', {
@@ -203,7 +203,6 @@ appControllers.controller('AdminPostListCtrl', ['$scope', '$routeParams', '$sce'
             $scope.posts = data;
         });
         
-        //TODO nicht mehr bearbeiten nach dem publich
         $scope.updatePublishState = function updatePublishState(post, shouldPublish) {
             if (post != undefined && shouldPublish != undefined) {
 
@@ -211,7 +210,9 @@ appControllers.controller('AdminPostListCtrl', ['$scope', '$routeParams', '$sce'
                     var posts = $scope.posts;
                     for (var postKey in posts) {
                         if (posts[postKey]._id == post._id) {
-                            $scope.posts[postKey].is_published = shouldPublish;
+                        	if(shouldPublish){
+                        		$scope.posts[postKey].is_published = shouldPublish;
+                        	}
                             break;
                         }
                     }

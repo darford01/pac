@@ -36,7 +36,7 @@ var Post = new Schema({
     updated: { type: Date, default: Date.now },
     read: { type: Number, default: 0 },
     roleids: { type: Array, arrayType: {type: Number} },
-    ownerid: { type: Number, default: 0 },
+    ownerid: { type: String, required: true },
     likes: { type: Number, default: 0 }
 });
 
