@@ -3,8 +3,13 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var secret = require('../config/secret');
 var redisClient = require('../config/redis_database').redisClient;
 var tokenManager = require('../config/token_manager');
+var wsStatistik = require('./wsCalls');
+var userInfo = require('./userinfo');
+var async = require('async');
+
 
 exports.signin = function(req, res) {
+	wsStatistik.wsCalls('signin');
 	var username = req.body.username || '';
 	var password = req.body.password || '';
 	
@@ -37,6 +42,7 @@ exports.signin = function(req, res) {
 };
 
 exports.logout = function(req, res) {
+	wsStatistik.wsCalls('logout');
 	if (req.user) {
 		tokenManager.expireToken(req.headers);
 
@@ -48,7 +54,43 @@ exports.logout = function(req, res) {
 	}
 }
 
+exports.deleteUser = function(req, res) {
+	wsStatistik.wsCalls('deleteUser');
+	var targetUserId = req.body.userId || '';
+	console.log('--> targetUserId : '+targetUserId );
+	if(targetUserId == ''){
+		
+		return res.send(400);
+	}
+	var userId = userInfo.getUserId(req.headers);
+	var isAdmin = null;
+	var isAdminCallback = function(data) {
+		isAdmin = data;
+		console.log('--> Userid: '+userId+' isAdmin: '+isAdmin);
+		if(isAdmin){
+			var query = db.userModel.findOne({_id:targetUserId});
+			query.exec(function(err, result) {
+				if (err) {
+					console.log(err);
+					return res.send(400);
+				}
+
+				if (result != null) {
+					result.remove();
+					return res.send(200);
+				}
+				else {
+					return res.send(400);
+				}
+			});
+		}
+	};
+	userInfo.userIsAdmin(userId, isAdminCallback);
+
+}
+
 exports.register = function(req, res) {
+	wsStatistik.wsCalls('register');
 	var username = req.body.username || '';
 	var password = req.body.password || '';
 	var passwordConfirmation = req.body.passwordConfirmation || '';

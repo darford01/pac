@@ -13,7 +13,7 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [x] Add Authentication to the administration
 - [x] Add registration for new user
 - [x] Handle Logout
-- [ ] Add users management
+- [ ] Add users management (set admins, delete user, etc.)
 - [X] Vote Article
 - [ ] Permission for Article
 - [X] Statistic for a Post
@@ -21,6 +21,7 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [ ] Lock Article after first vote
 - [x] Units Tests
 - [ ] Dokus
+- [x] nodeJs autostart and monitoring
 
 
 ## Dependencies
@@ -101,6 +102,51 @@ and then in another shell run:
 $ cd /voting
 $ mocha 
 
+## Monitoring and autostart
+if you want to monitor and autostart the application flow this steps:
+	1) npm install pm2 -g
+	2) pm2 start votin-api.js
+
+Applications that are running under PM2 will be restarted automatically if the application crashes or is killed, but an additional step needs to be taken to get the application to launch on system startup (boot or reboot). Luckily, PM2 provides an easy way to do this, the startup subcommand.
+
+The startup subcommand generates and configures a startup script to launch PM2 and its managed processes on server boots. You must also specify the platform you are running on, which is ubuntu, in our case:
+
+    pm2 startup ubuntu
+
+The last line of the resulting output will include a command (that must be run with superuser privileges) that you must run:
+
+Output:
+[PM2] You have to run this command as root
+[PM2] Execute the following command :
+[PM2] sudo su -c "env PATH=$PATH:/opt/node/bin pm2 startup ubuntu -u sammy --hp /home/sammy"
+
+Run the command that was generated (similar to the highlighted output above) to set PM2 up to start on boot (use the command from your own output):
+
+     sudo su -c "env PATH=$PATH:/opt/node/bin pm2 startup ubuntu -u sammy --hp /home/sammy"
+
+Other PM2 Usage (Optional)
+
+PM2 provides many subcommands that allow you to manage or look up information about your applications. Note that running pm2 without any arguments will display a help page, including example usage, that covers PM2 usage in more detail than this section of the tutorial.
+
+Stop an application with this command (specify the PM2 App name or id):
+
+    pm2 stop example
+
+Restart an application with this command (specify the PM2 App name or id):
+
+    pm2 restart example
+
+The list of applications currently managed by PM2 can also be looked up with the list subcommand:
+
+    pm2 list
+
+More information about a specific application can be found by using the info subcommand (specify the PM2 App name or id)::
+
+    pm2 info example
+
+The PM2 process monitor can be pulled up with the monit subcommand. This displays the application status, CPU, and memory usage:
+
+    pm2 monit
 
 ## Stack
 

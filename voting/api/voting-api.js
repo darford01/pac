@@ -62,10 +62,13 @@ app.post('/api/post/addvote', jwt({secret: secret.secretToken}), tokenManager.ve
 app.get('/api/post/statistik/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.getPostStatistik);
 
 // Delete the post id
-app.delete('/api/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.delete); 
+app.delete('/api/post/:id', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.deletePost); 
 
 // Get all posts
 app.get('/api/wsstatistik/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.wsListAll);
+
+// Delete a user py id
+app.delete('/api/user/delete', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.users.deleteUser);
 
 
 console.log('Voting API is starting on port '+config.port);

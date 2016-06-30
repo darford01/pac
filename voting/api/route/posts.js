@@ -147,8 +147,8 @@ exports.listByTag = function(req, res) {
 	});
 }
 
-exports.delete = function(req, res) {
-	wsStatistik.wsCalls('delete');
+exports.deletePost = function(req, res) {
+	wsStatistik.wsCalls('deletePost');
 	if (!req.user) {
 		return res.send(401);
 	}
@@ -209,15 +209,13 @@ exports.create = function(req, res) {
 exports.addVote = function(req, res) {
 	wsStatistik.wsCalls('addVote');
 	if (!req.user) {
-		console.log('--> 001');
 		return res.send(401);
 	}
 	
 	var vote = req.body.vote;
 	var userId = userInfo.getUserId(req.headers);
-	console.log('--> vote: '+vote+' id: '+vote._id+' value: '+vote.votevalue+' userid: '+userId);
+	//console.log('--> vote: '+vote+' id: '+vote._id+' value: '+vote.votevalue+' userid: '+userId);
 	if (vote == null || vote._id == null || vote.votevalue == null || userId == null) {
-		console.log('--> 002');
 		return res.send(400);
 	}	
 	// Add Vote

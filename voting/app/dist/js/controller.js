@@ -226,7 +226,7 @@ appControllers.controller('AdminPostListCtrl', ['$scope', '$routeParams', '$sce'
         $scope.deletePost = function deletePost(id) {
             if (id != undefined) {
 
-                PostService.delete(id).success(function(data) {
+                PostService.deletePost(id).success(function(data) {
                     var posts = $scope.posts;
                     for (var postKey in posts) {
                         if (posts[postKey]._id == id) {
@@ -527,7 +527,7 @@ appServices.factory('PostService', function($http) {
             return $http.put(options.api.base_url + '/api/post', {'post': {_id: id, is_published: newPublishState}});
         },
 
-        delete: function(id) {
+        deletePost: function(id) {
             return $http.delete(options.api.base_url + '/api/post/' + id);
         },
 
