@@ -81,6 +81,14 @@ Edit api/voting-api.js and replace the value of Access-Control-Allow-Origin to m
 
 Run the application: `my@home:/voting/api$ node voting-api.js`
 
+## Start and Stop the app
+
+Recommended start for the application is: 
+my@home:/voting/api$ pm2 start voting-api && tail -f ~/.pm2/logs/voting-api-out-0.log
+
+And for stopping the app:
+my@home:/voting/api$ pm2 stop voting-api 
+
 ## Run
 
 You can now open your browser: 
@@ -147,7 +155,7 @@ More information about a specific application can be found by using the info sub
 The PM2 process monitor can be pulled up with the monit subcommand. This displays the application status, CPU, and memory usage:
 
     pm2 monit
-
+ 
 ## Stack
 
 * AngularJS V1.2.1

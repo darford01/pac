@@ -15,7 +15,7 @@ var token = {};
 
 describe("Unit tests without login: ", function() {
 
-	it("should return empty Array", function(done) {
+	it("should return an Array", function(done) {
 		debugger
 		
 		server.get("/api/post").expect("Content-type", /json/).expect(200) 
@@ -23,8 +23,7 @@ describe("Unit tests without login: ", function() {
 			// HTTP status should be 200
 			res.status.should.equal(200);
 			
-			// Error key should be false.
-			res.body.should.be.instanceof(Array).and.have.lengthOf(0);
+			res.body.should.be.instanceof(Array);
 			done();
 		});
 	});
@@ -32,7 +31,7 @@ describe("Unit tests without login: ", function() {
 	it("should return all posts", function(done) {
 		debugger
 		// calling get all post
-		server.get("/api/post/all").expect("Content-type", /json/).expect(200)														// response
+		server.get("/api/post/").expect("Content-type", /json/).expect(200)														// response
 		.end(function(err, res) {
 			// HTTP status should be 200
 			res.status.should.equal(200);
@@ -45,7 +44,7 @@ describe("Unit tests without login: ", function() {
 	});
 
 
-	it("should return get one of the posts", function(done) {
+	it("should return one of the posts", function(done) {
 		debugger
 		// calling get id
 		server.get("/api/post/"+postid).expect("Content-type", /json/).expect(200)														// response
@@ -82,8 +81,6 @@ describe("Unit tests with login: ", function() {
 		.end(function(err, res) {
 			// HTTP status should be 200
 			res.status.should.equal(200);
-			console.log("----> "+JSON.stringify(token));
-			
 			done();
 		});
 	});
@@ -97,7 +94,7 @@ describe("Unit tests with login: ", function() {
 			// HTTP status should be 200
 			res.status.should.equal(200);
 			token = res.body.token;
-			console.log("----> "+JSON.stringify(token));
+			//console.log("----> "+JSON.stringify(token));
 			
 			done();
 		});
