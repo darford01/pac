@@ -15,13 +15,15 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [x] Handle Logout
 - [ ] Add users management (set admins, delete user, etc.)
 - [X] Vote Article
-- [ ] Permission for Article
+- [x] Permission for Article
 - [X] Statistic for a Post
 - [x] Statistic for websServices calls 
-- [ ] Lock Article after first vote
+- [x] Locks Article after first vote
 - [x] Units Tests
 - [ ] Dokus
 - [x] nodeJs autostart and monitoring
+- [ ] Real-time monitoring data
+- [ ] clustring
 
 
 ## Dependencies
@@ -111,6 +113,9 @@ $ cd /voting
 $ mocha 
 
 ## Monitoring and autostart
+
+http://pm2.keymetrics.io/
+
 if you want to monitor and autostart the application flow this steps:
 	1) npm install pm2 -g
 	2) pm2 start votin-api.js
