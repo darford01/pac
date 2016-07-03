@@ -304,6 +304,8 @@ exports.getPostStatistik = function(req, res) {
 		  		}
 
 		  		if (results != null) {
+		  			// add userid to results
+		  			results.push({userid: userId});
 					return res.json(200, results);
 				
 		  		} else {

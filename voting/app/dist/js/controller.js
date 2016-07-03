@@ -150,6 +150,8 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
     
 	PostService.getVoteStatistik(id).success(function(data) {
 		$scope.votes = data;
+		var procent = 0;
+		var voteSize = $scope.votes.length - 1;
 	    if($scope.votes[0].postid === undefined){
 	    	$location.path("/post/"+id);
 	    }else{
@@ -162,8 +164,12 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
 	    			if($scope.votes[i].votevalue == question){
 	    				result++;
 	    			}
+	    			if($scope.votes[i].userid == $scope.votes[0].userid){
+	    				$scope.yourVote = $scope.votes[i].votevalue;
+	    			}
 	    		}
-	    		$scope.labels.push(question);
+	    		procent = (result / voteSize) * 100  ;
+	    		$scope.labels.push(question+'('+ procent +'%)');
 	    		$scope.data.push(result);
 	    		
 	        	result = 0;
@@ -186,9 +192,16 @@ appControllers.controller('WSSatistikCtrl', ['$scope', '$routeParams', '$sce', '
 	    
 	    PostService.wsStatistik().success(function(rData) {
 	    	var wscalls = rData;
+	    	var wscallsLength = 0;
+	    	var result = 0;
 	    	for(var k = 0; k < wscalls.length; k++){
-	    		$scope.labels.push(wscalls[k].wsName);
+	    		wscallsLength = wscallsLength + wscalls[k].wsRecords;
+	    	}
+	    	for(var k = 0; k < wscalls.length; k++){
+	    		result = Math.round((wscalls[k].wsRecords / wscallsLength) * 100);
+	    		$scope.labels.push(wscalls[k].wsName+'('+result+'%)');
 	    		$scope.data.push(wscalls[k].wsRecords);
+	    		result = 0;
 	    	}
 	    	
 		});
