@@ -152,6 +152,7 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
 		$scope.votes = data;
 		var procent = 0;
 		var voteSize = $scope.votes.length - 1;
+		var useridIndex = $scope.votes.length;
 	    if($scope.votes[0].postid === undefined){
 	    	$location.path("/post/"+id);
 	    }else{
@@ -160,21 +161,20 @@ appControllers.controller('SatistikCtrl', ['$scope', '$routeParams', '$location'
 	    	var voteValues = tunables.split(',');
 	    	for(var k = 0; k < voteValues.length; k++){
 	    		var question = voteValues[k];
-	    		for(var i = 0; i < Object.keys($scope.votes).length; i++){
+	    		for(var i = 0; i < voteSize; i++){
 	    			if($scope.votes[i].votevalue == question){
 	    				result++;
 	    			}
-	    			if($scope.votes[i].userid == $scope.votes[0].userid){
+	    			if($scope.votes[i].userid == $scope.votes[voteSize].userid){
 	    				$scope.yourVote = $scope.votes[i].votevalue;
 	    			}
 	    		}
-	    		procent = (result / voteSize) * 100  ;
+	    		procent = Math.round((result / voteSize) * 100);
 	    		$scope.labels.push(question+'('+ procent +'%)');
 	    		$scope.data.push(result);
 	    		
 	        	result = 0;
 	    	}
-	    	
 	    	
 	    	$location.path("/post/statistik/"+id);
 	    }

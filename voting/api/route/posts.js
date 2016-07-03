@@ -2,7 +2,7 @@ var db = require('../config/mongo_database.js');
 
 var publicFields = '_id title url tags content created tunables';
 
-var publicFieldsVote = 'postid votevalue'; 
+var publicFieldsVote = 'postid votevalue userid'; 
 
 var userPublicFieldsVote = '_id username password is_admin created roles';
 
