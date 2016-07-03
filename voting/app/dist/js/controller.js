@@ -119,7 +119,6 @@ appControllers.controller('PostViewCtrl', ['$scope', '$routeParams', '$location'
         
         // vote the post
         $scope.voteThePost = function voteThePost(){
-        	//alert('------------> Just a test '+$scope.voteValue);
         	PostService.addvote(id,$scope.voteValue).success(function(data) {
         		$location.path("/post/statistik/"+id);
             }).error(function(status, data) {
@@ -281,6 +280,10 @@ appControllers.controller('AdminPostCreateCtrl', ['$scope', '$location', 'PostSe
         	$scope.tunables[ stringIndex ] = $event.currentTarget.value;
         };
         
+        $scope.goBack = function goBack() {
+        	$location.path('/admin');
+        };
+        
         $scope.save = function save(post, shouldPublish) {
             if (post != undefined 
                 && post.title != undefined) {
@@ -347,6 +350,9 @@ appControllers.controller('AdminPostEditCtrl', ['$scope', '$routeParams', '$loca
         	$scope.tunables[ stringIndex ] = $event.currentTarget.value;
         };
         
+        $scope.goBack = function goBack() {
+        	$location.path('/admin');
+        };
         
         $scope.save = function save(post, shouldPublish) {
             if (post !== undefined 
