@@ -3,7 +3,6 @@ var supertest = require("supertest");
 var qs = require("querystring");
 
 var bson = require('bson');
-var mongoose = require('mongoose');
 var app = require('../api/voting-api.js');
 var db = require('../api/config/mongo_database');
 
