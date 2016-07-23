@@ -17,13 +17,12 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [X] Vote Article
 - [x] Permission for Article
 - [X] Statistic for a Post
-- [x] Statistic for websServices calls 
+- [x] Statistic for Web-Services calls 
 - [x] Locks Article after first vote
 - [x] Units Tests
-- [ ] Dokus
-- [x] nodeJs autostart and monitoring
+- [x] NodeJS autostart and monitoring
 - [ ] Real-time monitoring data
-- [ ] clustring
+- [X] clustring
 
 
 ## Dependencies
@@ -35,6 +34,13 @@ You need `mongodb-2.4.10` up and running on port `27017`
 ## Installation
 
 Clone the repository with: >>git clone https://github.com/darford01/pac.git
+
+install npm
+install and run mongodb
+install and run redis 
+
+flow the steps below
+
 
 ### Start Redis
 
@@ -62,31 +68,25 @@ my@home:...$ redis-server
 [13499] 12 May 19:22:41.172 # Server started, Redis version 2.8.9
 [13499] 12 May 19:22:41.172 * The server is now ready to accept connections on port 6379
 ```
-
-### Build angularjs app
-
-The build result is already available, but if you want to build it yourself, install gulp and the dependencies, then run it.
-
-install gulp and the gulp dependencies: `npm install`
-
-You can run the app in other Web-Server like Apache http Server. Create on Apache a folder voting and cope all the files from voting/app into and run the server
-
-Edit app/js/app.js and replace the value of `options.api.base_url` to match your server configuration of the Web-Server if you will use one. If you will not use a Web-Server for app, please configure there the same host and port number as nodejs server. 
-
-Run gulp to build the scripts of the AngularJS app with: `$ gulp`
-
 ### Install voting App
 
+Go to the voting folder and install the dependencies: `my@home:/voting/$ npm install`
+Go to the app folder and install the dependencies: `my@home:/voting/app$ npm install`
 Go to the api folder and install the dependencies: `my@home:/voting/api$ npm install`
 
-Edit api/voting-api.js and replace the value of Access-Control-Allow-Origin to match your Node.js server configuration.
+# Configuration
+1) For edit host-name and port.number got to `voting/api/config.js` 
+2) To edit the host-name and port-number of the app go to `voting/app/dist/js/controller.js` and edit `options.api.base_url`  
 
+# Start 
 Run the application: `my@home:/voting/api$ node voting-api.js`
 
 ## Start and Stop the app
 
 Recommended start for the application is: 
 my@home:/voting/api$ pm2 start voting-api && tail -f ~/.pm2/logs/voting-api-out-0.log
+
+you have to install pm2: sudo npm install -g pm2
 
 And for stopping the app:
 my@home:/voting/api$ pm2 stop voting-api 
@@ -97,7 +97,7 @@ You can now open your browser:
 * On Apache -- `http://localhost:<your-port>/voting/app`
 * Without http-Server -- `http://localhost:<your-port>/'
 
-Create a first account on `http://localhost:<your-port>/<voting/app>/#/admin/register`
+Create a first account (Administrator) on `http://localhost:<your-port>/<voting/app>/#/admin/register`
 
 To access the Administration, go to `http://localhost:<your-port>/<voting/app>/#/admin/login`
 
@@ -160,6 +160,10 @@ More information about a specific application can be found by using the info sub
 The PM2 process monitor can be pulled up with the monit subcommand. This displays the application status, CPU, and memory usage:
 
     pm2 monit
+
+## cluster
+
+you can run the app in cluster by installing the application more the one and edit the port-number of api and app
  
 ## Stack
 
@@ -170,7 +174,13 @@ The PM2 process monitor can be pulled up with the monit subcommand. This display
 * Charts.js V1.1.1
 * Node.js v5.7.0
 * Mocha v2.5.3
- 
+
+## Known errors 
+# Error: Cannot find module 'bson'
+please install bson by your self, flow this steps 
+1) sudo npm un node-gyp -g;sudo npm i node-gyp -g
+2) sudo npm un bson;sudo npm i bson --save
+
 ## Author
 
 Issam Lamani (PRODYNA AG)

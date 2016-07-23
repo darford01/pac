@@ -9,6 +9,7 @@ var appDirectives = angular.module('appDirectives', []);
 var options = {};
 options.api = {};
 options.api.base_url = "http://localhost:9877";
+//options.api.base_url = "http://voting.com";
 
 
 app.config(['$locationProvider', '$routeProvider', 
