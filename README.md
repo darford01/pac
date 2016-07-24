@@ -76,9 +76,9 @@ my@home:...$ redis-server
 ```
 ### Install voting App
 
-Go to the voting folder and install the dependencies: `my@home:/voting/$ npm install`
-Go to the app folder and install the dependencies: `my@home:/voting/app$ npm install`
-Go to the api folder and install the dependencies: `my@home:/voting/api$ npm install`
+* Go to the voting folder and install the dependencies: `my@home:/voting/$ npm install`
+* Go to the app folder and install the dependencies: `my@home:/voting/app$ npm install`
+* Go to the api folder and install the dependencies: `my@home:/voting/api$ npm install`
 
 ### Start 
 
@@ -120,7 +120,9 @@ $ mocha
 http://pm2.keymetrics.io/
 
 if you want to monitor and autostart the application flow this steps:
+	
 	* npm install pm2 -g
+	
 	* pm2 start votin-api.js
 
 Applications that are running under PM2 will be restarted automatically if the application crashes or is killed, but an additional step needs to be taken to get the application to launch on system startup (boot or reboot). Luckily, PM2 provides an easy way to do this, the startup subcommand.
