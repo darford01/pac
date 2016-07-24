@@ -98,7 +98,9 @@ my@home:/voting/api$ pm2 stop voting-api
 
 You can now open your browser: 
 * On Apache -- `http://localhost:<your-port>/voting/app`
-* Without http-Server -- `http://localhost:<your-port>/'
+* Without http-Server -- `http://localhost:<port>/'
+* Default-port is `9877`
+
 
 Create a first account (Administrator) on `http://localhost:<your-port>/<voting/app>/#/admin/register`
 
