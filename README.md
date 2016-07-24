@@ -43,9 +43,9 @@ flow the steps below
 
 ### Configuration
 
-1) For edit host-name and port.number got to `voting/api/config/config.js` 
-2) To edit the host-name and port-number of the app go to `voting/app/dist/js/controller.js` and edit `options.api.base_url`  
-3) Other configuration for Mongo and Redis DBs are in `voting/api/config` folder
+1. For edit host-name and port.number got to `voting/api/config/config.js` 
+2. To edit the host-name and port-number of the app go to `voting/app/dist/js/controller.js` and edit `options.api.base_url`  
+3. Other configuration for Mongo and Redis DBs are in `voting/api/config` folder
 
 
 ### Start Redis
@@ -120,8 +120,8 @@ $ mocha
 http://pm2.keymetrics.io/
 
 if you want to monitor and autostart the application flow this steps:
-	1) npm install pm2 -g
-	2) pm2 start votin-api.js
+	1. npm install pm2 -g
+	2. pm2 start votin-api.js
 
 Applications that are running under PM2 will be restarted automatically if the application crashes or is killed, but an additional step needs to be taken to get the application to launch on system startup (boot or reboot). Luckily, PM2 provides an easy way to do this, the startup subcommand.
 
@@ -181,8 +181,8 @@ you can run the app in cluster by installing the application more the one and ed
 ## Known errors 
 ### Error: Cannot find module 'bson'
 please install bson by your self, flow this steps 
-1) sudo npm un node-gyp -g;sudo npm i node-gyp -g
-2) sudo npm un bson;sudo npm i bson --save
+1. sudo npm un node-gyp -g;sudo npm i node-gyp -g
+2. sudo npm un bson;sudo npm i bson --save
 
 ## Author
 
