@@ -21,7 +21,7 @@ Voting is a simple voting application built with AngularJS, Node.js and MongoDB.
 - [x] Locks Article after first vote
 - [x] Units Tests
 - [x] NodeJS autostart and monitoring
-- [ ] Real-time monitoring data
+- [X] Real-time monitoring data
 - [X] clustring
 
 
@@ -40,6 +40,12 @@ install and run mongodb
 install and run redis 
 
 flow the steps below
+
+### Configuration
+
+1) For edit host-name and port.number got to `voting/api/config/config.js` 
+2) To edit the host-name and port-number of the app go to `voting/app/dist/js/controller.js` and edit `options.api.base_url`  
+3) Other configuration for Mongo and Redis DBs are in `voting/api/config` folder
 
 
 ### Start Redis
@@ -74,14 +80,11 @@ Go to the voting folder and install the dependencies: `my@home:/voting/$ npm ins
 Go to the app folder and install the dependencies: `my@home:/voting/app$ npm install`
 Go to the api folder and install the dependencies: `my@home:/voting/api$ npm install`
 
-# Configuration
-1) For edit host-name and port.number got to `voting/api/config.js` 
-2) To edit the host-name and port-number of the app go to `voting/app/dist/js/controller.js` and edit `options.api.base_url`  
+### Start 
 
-# Start 
 Run the application: `my@home:/voting/api$ node voting-api.js`
 
-## Start and Stop the app
+#### Start and Stop the app
 
 Recommended start for the application is: 
 my@home:/voting/api$ pm2 start voting-api && tail -f ~/.pm2/logs/voting-api-out-0.log
@@ -91,7 +94,7 @@ you have to install pm2: sudo npm install -g pm2
 And for stopping the app:
 my@home:/voting/api$ pm2 stop voting-api 
 
-## Run
+### Run
 
 You can now open your browser: 
 * On Apache -- `http://localhost:<your-port>/voting/app`
@@ -176,7 +179,7 @@ you can run the app in cluster by installing the application more the one and ed
 * Mocha v2.5.3
 
 ## Known errors 
-# Error: Cannot find module 'bson'
+### Error: Cannot find module 'bson'
 please install bson by your self, flow this steps 
 1) sudo npm un node-gyp -g;sudo npm i node-gyp -g
 2) sudo npm un bson;sudo npm i bson --save
