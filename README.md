@@ -171,18 +171,37 @@ The PM2 process monitor can be pulled up with the monit subcommand. This display
 ## cluster
 
 you can run the app in cluster by installing the application more the one and edit the port-number of api and app
+
+## Modify or extend the voting-application
+
+### API modification and extensions
+
+* To add, change, or create new REST services, please go to `voting/api/route` folder and adapt or insert the desired methods. 
+* When you add a new methods in new js-file please use `var abc = require(' abc.js ');` in the other the files, so that they are known there.
+* When you add new methods you have to mapp them to REST-URL, please do that in `voting/api/voting-api.js`, here is an example:
+```js
+ // Create a new post
+ app.post('/api/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken , routes.posts.create); 
+```  
+
+### AngularJS APP modification and extensions
+* please install gulp: `$ npm install -g gulp`
+* All css changes have to be done in `voting/app/css`
+* All AngularJS modifikation have to be done in `voting/app/js`
+* To deploy you changes please run gulp: `$ gulp`, all your changes will be saved in the folger dist `voting/app/dist`
  
 ## Stack
 
 * AngularJS V1.2.1
 * Bootstrap v3.0.2
-* MongoDB
-* Redis
+* MongoDB V2.4.10
+* Redis V2.8.9
 * Charts.js V1.1.1
 * Node.js v5.7.0
 * Mocha v2.5.3
 
 ## Known errors 
+
 ### Error: Cannot find module 'bson'
 please install bson by your self, flow this steps 
 * sudo npm un node-gyp -g;sudo npm i node-gyp -g

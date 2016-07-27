@@ -10,7 +10,7 @@ var paths = {
 gulp.task('scripts', function() {
     // concat and copy all JavaScript
     return gulp.src(paths.scripts)
-        .pipe(concat('voting.js'))
+        .pipe(concat('controller.js'))
         .pipe(gulp.dest('app/dist/js'));
 });
 
