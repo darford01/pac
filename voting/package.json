@@ -1,7 +1,7 @@
 {
   "name": "voting-builder",
   "description": "Voting Builder",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "gulp-concat": "~2.2.0",

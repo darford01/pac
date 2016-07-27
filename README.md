@@ -170,25 +170,32 @@ The PM2 process monitor can be pulled up with the monit subcommand. This display
 
 ## cluster
 
-you can run the app in cluster by installing the application more the one and edit the port-number of api and app
+you can run the app in cluster by installing the application more the one and edit the port-number of api and app. 
+If you install the application twice in one machine you have to change the name of the file `voting/api/voting-api.js` to `voting/api/voting-api-<number>.js`  
 
 ## Modify or extend the voting-application
 
 ### API modification and extensions
 
 * To add, change, or create new REST services, please go to `voting/api/route` folder and adapt or insert the desired methods. 
-* When you add a new methods in new js-file please use `var abc = require(' abc.js ');` in the other the files, so that they are known there.
+* When you add a new methods in new js-file please use `var abc = require(' abc.js ');` in the other files, so that they are known there.
 * When you add new methods you have to mapp them to REST-URL, please do that in `voting/api/voting-api.js`, here is an example:
 ```js
  // Create a new post
  app.post('/api/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken , routes.posts.create); 
-```  
+```   
 
 ### AngularJS APP modification and extensions
 * please install gulp: `$ npm install -g gulp`
-* All css changes have to be done in `voting/app/css`
+* All css changes have to be done in `voting/app/css`, we are unsin less please, reade bevore editing:  Howto http://http://lesscss.org/
 * All AngularJS modifikation have to be done in `voting/app/js`
 * To deploy you changes please run gulp: `$ gulp`, all your changes will be saved in the folger dist `voting/app/dist`
+
+## Release Management
+
+* Please Test, commit and push all changes 
+* To create a relase please add a tag in git: $ git tag -a vx.x.x -m "my version x.x.x" 
+* Push your Tag as new release: $ git push origin vx.x.x
  
 ## Stack
 

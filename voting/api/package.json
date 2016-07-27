@@ -1,7 +1,7 @@
 {
   "name": "voting",
   "description": "Voting api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "angular-chart.js": "^1.0.0-alpha7",
