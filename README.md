@@ -199,6 +199,7 @@ you can run the app in cluster by installing the application more the one and ed
 * Charts.js V1.1.1
 * Node.js v5.7.0
 * Mocha v2.5.3
+* PM2 V1.0.1
 
 ## Known errors 
 
